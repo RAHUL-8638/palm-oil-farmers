@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oil Palm Farmer Platform - Digital Decision Support</title>
+    <style>
+         :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            /* define rgb variables for later rgba(...) uses */
+            --color-gray-300-rgb: 167, 169, 169;
+            --color-gray-300: rgb(var(--color-gray-300-rgb));
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-gray-400-rgb: 119, 124, 124;
+            --color-teal-300-rgb: 50, 184, 198;
+            --color-bg-1: rgba(59, 130, 246, 0.08);
+            --color-bg-2: rgba(245, 158, 11, 0.08);
+            --color-bg-3: rgba(34, 197, 94, 0.08);
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-btn-primary-text: var(--color-cream-50);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-400);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-400);
+            --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+            --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --space-4: 4px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+             :root {
+                --color-background: var(--color-charcoal-700);
+                --color-surface: var(--color-charcoal-800);
+                --color-text: var(--color-gray-200);
+                --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+                --color-primary: var(--color-teal-300);
+                --color-primary-hover: var(--color-teal-500);
+                --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+                --color-btn-primary-text: var(--color-slate-900);
+                --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+            }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-16);
+        }
+        
+        header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-card-border);
+            padding: var(--space-16);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-16);
+        }
+        
+        .logo {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: var(--space-12);
+            align-items: center;
+        }
+        
+        .language-selector {
+            padding: var(--space-8) var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-surface);
+            color: var(--color-text);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: var(--space-8) var(--space-16);
+            border-radius: var(--radius-base);
+            border: none;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--color-secondary);
+            color: var(--color-text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--color-secondary-hover);
+        }
+        
+        .auth-section {
+            display: none;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-32);
+            max-width: 500px;
+            margin: var(--space-32) auto;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .auth-section.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-16);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: var(--space-8);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            font-size: var(--font-size-base);
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        
+        .dashboard {
+            display: none;
+            margin-top: var(--space-24);
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-16);
+            margin-bottom: var(--space-24);
+        }
+        
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-20);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .card h3 {
+            margin-bottom: var(--space-12);
+            color: var(--color-primary);
+            font-size: var(--font-size-xl);
+        }
+        
+        .stat-value {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text);
+        }
+        
+        .feature-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-20);
+            margin-bottom: var(--space-16);
+        }
+        
+        .feature-card h4 {
+            color: var(--color-primary);
+            margin-bottom: var(--space-8);
+            font-size: var(--font-size-lg);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-4) var(--space-12);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .status-success {
+            background: rgba(var(--color-teal-500-rgb), 0.15);
+            color: var(--color-success);
+        }
+        
+        .status-warning {
+            background: var(--color-bg-2);
+            color: var(--color-warning);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-16);
+        }
+        
+        th,
+        td {
+            padding: var(--space-12);
+            text-align: left;
+            border-bottom: 1px solid var(--color-card-border);
+        }
+        
+        th {
+            background: var(--color-secondary);
+            font-weight: var(--font-weight-semibold);
+        }
+        
+        .alert {
+            padding: var(--space-12) var(--space-16);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-16);
+        }
+        
+        .alert-success {
+            background: rgba(var(--color-teal-500-rgb), 0.15);
+            color: var(--color-success);
+            border: 1px solid var(--color-success);
+        }
+        
+        .alert-error {
+            background: rgba(255, 84, 89, 0.15);
+            color: var(--color-error);
+            border: 1px solid var(--color-error);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        pre {
+            background: var(--color-background);
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            overflow-x: auto;
+            font-size: var(--font-size-sm);
+            border: 1px solid var(--color-border);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo" data-translate="appTitle">🌴 Oil Palm Farmer Platform</div>
+            <div class="header-actions">
+                <select class="language-selector" id="languageSelector">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="te">తెలుగు (Telugu)</option>
+                    <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                    <option value="ml">മലയാളം (Malayalam)</option>
+                    <option value="mr">मराठी (Marathi)</option>
+                    <option value="gu">ગુજરાતી (Gujarati)</option>
+                    <option value="bn">বাংলা (Bengali)</option>
+                    <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                </select>
+                <button class="btn btn-secondary" id="logoutBtn" style="display: none;" data-translate="logout">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Login Section -->
+        <div class="auth-section active" id="loginSection">
+            <h2 data-translate="loginTitle">Login to Your Account</h2>
+            <div id="loginMessage"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label data-translate="phone">Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="+91 9876543210" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="password">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-translate="loginBtn">Login</button>
+            </form>
+            <p style="margin-top: var(--space-16); text-align: center;">
+                <span data-translate="noAccount">Don't have an account?</span>
+                <a href="#" id="showRegister" style="color: var(--color-primary);" data-translate="registerLink">Register here</a>
+            </p>
+        </div>
+
+        <!-- Register Section -->
+        <div class="auth-section" id="registerSection">
+            <h2 data-translate="registerTitle">Create New Account</h2>
+            <div id="registerMessage"></div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label data-translate="fullName">Full Name</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="phone">Phone Number</label>
+                    <input type="tel" id="regPhone" placeholder="+91 9876543210" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="password">Password</label>
+                    <input type="password" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="farmSize">Farm Size (Hectares)</label>
+                    <input type="number" id="regFarmSize" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="location">Location (Village/District)</label>
+                    <input type="text" id="regLocation" required>
+                </div>
+                <div class="form-group">
+                    <label data-translate="state">State</label>
+                    <select id="regState" required>
+                        <option value="">Select State</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-translate="registerBtn">Register</button>
+            </form>
+            <p style="margin-top: var(--space-16); text-align: center;">
+                <span data-translate="haveAccount">Already have an account?</span>
+                <a href="#" id="showLogin" style="color: var(--color-primary);" data-translate="loginLink">Login here</a>
+            </p>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div class="dashboard" id="dashboardSection">
+            <h2 data-translate="welcomeMsg">Welcome, Farmer!</h2>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3 data-translate="farmOverview">Farm Overview</h3>
+                    <p><strong data-translate="farmSize">Farm Size:</strong> <span id="dashFarmSize">0</span> Ha</p>
+                    <p><strong data-translate="location">Location:</strong> <span id="dashLocation">-</span></p>
+                    <p><strong data-translate="state">State:</strong> <span id="dashState">-</span></p>
+                </div>
+
+                <div class="card">
+                    <h3 data-translate="rewardPoints">Reward Points</h3>
+                    <div class="stat-value" id="rewardPoints">0</div>
+                    <p style="color: var(--color-text-secondary); margin-top: var(--space-8);" data-translate="earnMore">Complete tasks to earn more</p>
+                </div>
+
+                <div class="card">
+                    <h3 data-translate="certStatus">Certification Status</h3>
+                    <span class="status-badge status-warning" id="certStatus" data-translate="pending">Pending</span>
+                    <p style="margin-top: var(--space-12); font-size: var(--font-size-sm);" data-translate="certInfo">Follow best practices to get certified</p>
+                </div>
+            </div>
+
+            <!-- Decision Support Tools -->
+            <div class="feature-card">
+                <h4 data-translate="decisionSupport">📊 Decision Support Tools</h4>
+                <p data-translate="decisionDesc">Get AI-powered recommendations for your farm operations</p>
+
+                <div style="margin-top: var(--space-16);">
+                    <button class="btn btn-primary" id="btnFert" data-translate="fertCalc">Fertilizer Calculator</button>
+                    <button class="btn btn-primary" id="btnDisease" data-translate="diseaseAlert">Disease Alerts</button>
+                    <button class="btn btn-primary" id="btnWeather" data-translate="weather">Weather Forecast</button>
+                </div>
+
+                <div id="toolOutput" style="margin-top: var(--space-16);"></div>
+            </div>
+
+            <!-- Farm Records -->
+            <div class="feature-card">
+                <h4 data-translate="farmRecords">📝 Farm Records & Traceability</h4>
+                <button class="btn btn-secondary" id="btnAddRecord" data-translate="addRecord">Add New Record</button>
+
+                <table id="recordsTable">
+                    <thead>
+                        <tr>
+                            <th data-translate="date">Date</th>
+                            <th data-translate="activity">Activity</th>
+                            <th data-translate="details">Details</th>
+                            <th data-translate="points">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Incentive Programs -->
+            <div class="feature-card">
+                <h4 data-translate="incentives">🎁 Incentive Programs</h4>
+                <p data-translate="incentivesDesc">Earn rewards for sustainable farming practices</p>
+
+                <div class="dashboard-grid" style="margin-top: var(--space-16);">
+                    <div class="card">
+                        <strong data-translate="sustainPractice">Sustainable Practices</strong>
+                        <div class="stat-value" style="font-size: var(--font-size-2xl);">50 pts</div>
+                    </div>
+                    <div class="card">
+                        <strong data-translate="certComplete">Certification Completion</strong>
+                        <div class="stat-value" style="font-size: var(--font-size-2xl);">100 pts</div>
+                    </div>
+                    <div class="card">
+                        <strong data-translate="dataEntry">Regular Data Entry</strong>
+                        <div class="stat-value" style="font-size: var(--font-size-2xl);">25 pts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Database schema removed -->
+    </div>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                appTitle: "🌴 Oil Palm Farmer Platform",
+                logout: "Logout",
+                loginTitle: "Login to Your Account",
+                registerTitle: "Create New Account",
+                phone: "Phone Number",
+                password: "Password",
+                loginBtn: "Login",
+                registerBtn: "Register",
+                noAccount: "Don't have an account?",
+                registerLink: "Register here",
+                haveAccount: "Already have an account?",
+                loginLink: "Login here",
+                fullName: "Full Name",
+                farmSize: "Farm Size (Hectares)",
+                location: "Location (Village/District)",
+                state: "State",
+                welcomeMsg: "Welcome, Farmer!",
+                farmOverview: "Farm Overview",
+                rewardPoints: "Reward Points",
+                earnMore: "Complete tasks to earn more",
+                certStatus: "Certification Status",
+                pending: "Pending",
+                certInfo: "Follow best practices to get certified",
+                decisionSupport: "📊 Decision Support Tools",
+                decisionDesc: "Get AI-powered recommendations for your farm operations",
+                fertCalc: "Fertilizer Calculator",
+                diseaseAlert: "Disease Alerts",
+                weather: "Weather Forecast",
+                farmRecords: "📝 Farm Records & Traceability",
+                addRecord: "Add New Record",
+                date: "Date",
+                activity: "Activity",
+                details: "Details",
+                points: "Points",
+                incentives: "🎁 Incentive Programs",
+                incentivesDesc: "Earn rewards for sustainable farming practices",
+                sustainPractice: "Sustainable Practices",
+                certComplete: "Certification Completion",
+                dataEntry: "Regular Data Entry"
+            },
+            hi: {
+                appTitle: "🌴 तेल पाम किसान मंच",
+                logout: "लॉगआउट",
+                loginTitle: "अपने खाते में लॉगिन करें",
+                registerTitle: "नया खाता बनाएं",
+                phone: "फ़ोन नंबर",
+                password: "पासवर्ड",
+                loginBtn: "लॉगिन",
+                registerBtn: "रजिस्टर करें",
+                noAccount: "खाता नहीं है?",
+                registerLink: "यहाँ रजिस्टर करें",
+                haveAccount: "पहले से खाता है?",
+                loginLink: "यहाँ लॉगिन करें",
+                fullName: "पूरा नाम",
+                farmSize: "खेत का आकार (हेक्टेयर)",
+                location: "स्थान (गाँव/जिला)",
+                state: "राज्य",
+                welcomeMsg: "स्वागत है, किसान!",
+                farmOverview: "खेत का विवरण",
+                rewardPoints: "पुरस्कार अंक",
+                earnMore: "अधिक अंक कमाने के लिए कार्य पूरे करें",
+                certStatus: "प्रमाणन स्थिति",
+                pending: "लंबित",
+                certInfo: "प्रमाणित होने के लिए सर्वोत्तम प्रथाओं का पालन करें",
+                decisionSupport: "📊 निर्णय सहायता उपकरण",
+                decisionDesc: "अपने खेत संचालन के लिए AI-संचालित सिफारिशें प्राप्त करें",
+                fertCalc: "उर्वरक कैलकुलेटर",
+                diseaseAlert: "रोग अलर्ट",
+                weather: "मौसम पूर्वानुमान",
+                farmRecords: "📝 खेत रिकॉर्ड और ट्रेसेबिलिटी",
+                addRecord: "नया रिकॉर्ड जोड़ें",
+                date: "तारीख",
+                activity: "गतिविधि",
+                details: "विवरण",
+                points: "अंक",
+                incentives: "🎁 प्रोत्साहन कार्यक्रम",
+                incentivesDesc: "टिकाऊ खेती के तरीकों के लिए पुरस्कार अर्जित करें",
+                sustainPractice: "टिकाऊ प्रथाएं",
+                certComplete: "प्रमाणन पूर्णता",
+                dataEntry: "नियमित डेटा प्रविष्टि"
+            },
+            // ...other languages unchanged for brevity...
+        };
+
+        // Mock database
+        let users = [];
+        let farmRecords = [];
+        let currentUser = null;
+        let currentLanguage = 'en';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLanguage();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            const langSel = document.getElementById('languageSelector');
+            if (langSel) langSel.addEventListener('change', changeLanguage);
+            const showRegisterEl = document.getElementById('showRegister');
+            if (showRegisterEl) showRegisterEl.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('registerSection');
+            });
+            const showLoginEl = document.getElementById('showLogin');
+            if (showLoginEl) showLoginEl.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('loginSection');
+            });
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) loginForm.addEventListener('submit', handleLogin);
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) registerForm.addEventListener('submit', handleRegister);
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+
+            // dashboard action buttons
+            const btnFert = document.getElementById('btnFert');
+            if (btnFert) btnFert.addEventListener('click', showFertilizerCalc);
+            const btnDisease = document.getElementById('btnDisease');
+            if (btnDisease) btnDisease.addEventListener('click', showDiseaseAlert);
+            const btnWeather = document.getElementById('btnWeather');
+            if (btnWeather) btnWeather.addEventListener('click', showWeather);
+            const btnAddRecord = document.getElementById('btnAddRecord');
+            if (btnAddRecord) btnAddRecord.addEventListener('click', addRecord);
+        }
+
+        function changeLanguage(e) {
+            currentLanguage = e.target.value;
+            loadLanguage();
+        }
+
+        function loadLanguage() {
+            const trans = translations[currentLanguage] || translations.en;
+            const langSelect = document.getElementById('languageSelector');
+            if (langSelect) langSelect.value = currentLanguage;
+
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                const text = trans[key];
+                if (!text) return;
+
+                const tag = element.tagName.toUpperCase();
+
+                if (tag === 'INPUT') {
+                    // If input has placeholder attribute, translate placeholder
+                    if (element.hasAttribute('placeholder')) {
+                        element.placeholder = text;
+                    } else if (element.type === 'button' || element.type === 'submit') {
+                        element.value = text;
+                    } else {
+                        // don't overwrite user-entered values; set aria-label instead
+                        element.setAttribute('aria-label', text);
+                    }
+                } else if (tag === 'BUTTON' || tag === 'A' || tag === 'LABEL' || tag.startsWith('H') || tag === 'SPAN' || tag === 'DIV' || tag === 'P' || tag === 'STRONG') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.auth-section, .dashboard').forEach(section => {
+                section.classList.remove('active');
+            });
+            const target = document.getElementById(sectionId);
+            if (target) target.classList.add('active');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const name = document.getElementById('regName').value.trim();
+            const farmSize = document.getElementById('regFarmSize').value;
+            const location = document.getElementById('regLocation').value.trim();
+            const state = document.getElementById('regState').value;
+
+            if (!phone || !password || !name) {
+                showMessage('registerMessage', 'Please complete required fields', 'error');
+                return;
+            }
+
+            // Check if user exists
+            if (users.find(u => u.phone === phone)) {
+                showMessage('registerMessage', 'Phone number already registered', 'error');
+                return;
+            }
+
+            // Create user
+            const user = {
+                id: Date.now(),
+                phone,
+                password, // In production, hash this
+                name,
+                farmSize: parseFloat(farmSize) || 0,
+                location,
+                state,
+                language: currentLanguage,
+                rewardPoints: 0,
+                certificationStatus: 'pending',
+                createdAt: new Date()
+            };
+
+            users.push(user);
+            showMessage('registerMessage', 'Registration successful! Please login.', 'success');
+            setTimeout(() => showSection('loginSection'), 1500);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const phone = document.getElementById('loginPhone').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            const user = users.find(u => u.phone === phone && u.password === password);
+            if (user) {
+                currentUser = user;
+                currentLanguage = user.language || currentLanguage;
+                loadLanguage();
+                showDashboard();
+                const logoutEl = document.getElementById('logoutBtn');
+                if (logoutEl) logoutEl.style.display = 'block';
+            } else {
+                showMessage('loginMessage', 'Invalid phone number or password', 'error');
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            const logoutEl = document.getElementById('logoutBtn');
+            if (logoutEl) logoutEl.style.display = 'none';
+            showSection('loginSection');
+            // clear dashboard/tool output
+            const out = document.getElementById('toolOutput');
+            if (out) out.innerHTML = '';
+        }
+
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            element.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
+        }
+
+        function showDashboard() {
+            if (!currentUser) {
+                showSection('loginSection');
+                return;
+            }
+            showSection('dashboardSection');
+            document.getElementById('dashFarmSize').textContent = currentUser.farmSize || 0;
+            document.getElementById('dashLocation').textContent = currentUser.location || '-';
+            document.getElementById('dashState').textContent = currentUser.state || '-';
+            document.getElementById('rewardPoints').textContent = currentUser.rewardPoints || 0;
+            // Map certification status to translated label when available
+            const certEl = document.getElementById('certStatus');
+            if (certEl) {
+                const translated = (translations[currentLanguage] && translations[currentLanguage][currentUser.certificationStatus]) || currentUser.certificationStatus;
+                certEl.textContent = translated;
+            }
+            loadFarmRecords();
+        }
+
+        function loadFarmRecords() {
+            if (!currentUser) return;
+            const userRecords = farmRecords.filter(r => r.userId === currentUser.id);
+            const tbody = document.getElementById('recordsBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            if (userRecords.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No records yet. Add your first record!</td></tr>';
+                return;
+            }
+
+            userRecords.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(record.date).toLocaleDateString()}</td>
+                    <td>${record.activity}</td>
+                    <td>${record.details}</td>
+                    <td>${record.points}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function addRecord() {
+            if (!currentUser) {
+                showMessage('loginMessage', 'Please login to add records', 'error');
+                return;
+            }
+            const activity = prompt('Activity (fertilizing/harvesting/irrigation):');
+            const details = prompt('Details:');
+            if (activity && details) {
+                const points = 25;
+                const record = {
+                    id: Date.now(),
+                    userId: currentUser.id,
+                    date: new Date(),
+                    activity,
+                    details,
+                    points
+                };
+                farmRecords.push(record);
+                currentUser.rewardPoints += points;
+                showDashboard();
+                alert(`Record added! You earned ${points} points.`);
+            }
+        }
+
+        function showFertilizerCalc() {
+            if (!currentUser) {
+                showMessage('loginMessage', 'Please login to use tools', 'error');
+                return;
+            }
+            const output = document.getElementById('toolOutput');
+            if (!output) return;
+            output.innerHTML = `
+                <div class="card">
+                    <h4>🧮 Fertilizer Calculator</h4>
+                    <p><strong>Recommendation for ${currentUser.farmSize} Ha:</strong></p>
+                    <ul>
+                        <li>Nitrogen (N): ${(currentUser.farmSize * 120).toFixed(1)} kg</li>
+                        <li>Phosphorus (P): ${(currentUser.farmSize * 60).toFixed(1)} kg</li>
+                        <li>Potassium (K): ${(currentUser.farmSize * 150).toFixed(1)} kg</li>
+                    </ul>
+                    <p><em>Apply in 3 splits: March, July, October</em></p>
+                </div>
+            `;
+        }
+
+        function showDiseaseAlert() {
+            if (!currentUser) {
+                showMessage('loginMessage', 'Please login to use tools', 'error');
+                return;
+            }
+            const output = document.getElementById('toolOutput');
+            if (!output) return;
+            output.innerHTML = `
+                <div class="card">
+                    <h4>🦠 Disease Alert</h4>
+                    <div class="status-badge status-warning">Medium Risk</div>
+                    <p style="margin-top: var(--space-12);"><strong>Bud Rot Risk in ${currentUser.state}</strong></p>
+                    <p>Recent rainfall increases risk. Monitor palms for symptoms:</p>
+                    <ul>
+                        <li>Wilting of young leaves</li>
+                        <li>Foul odor from crown</li>
+                        <li>Dark discoloration</li>
+                    </ul>
+                    <p><strong>Action:</strong> Improve drainage, apply fungicide preventively</p>
+                </div>
+            `;
+        }
+
+        function showWeather() {
+            if (!currentUser) {
+                showMessage('loginMessage', 'Please login to use tools', 'error');
+                return;
+            }
+            const output = document.getElementById('toolOutput');
+            if (!output) return;
+            output.innerHTML = `
+                <div class="card">
+                    <h4>🌦️ Weather Forecast - ${currentUser.location}</h4>
+                    <p><strong>Next 7 Days:</strong></p>
+                    <table>
+                        <tr><th>Day</th><th>Temp (°C)</th><th>Rain</th><th>Action</th></tr>
+                        <tr><td>Today</td><td>28-32</td><td>20%</td><td>Good for spraying</td></tr>
+                        <tr><td>Tomorrow</td><td>27-31</td><td>60%</td><td>Postpone fertilizing</td></tr>
+                        <tr><td>Day 3</td><td>26-30</td><td>80%</td><td>Check drainage</td></tr>
+                    </table>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
